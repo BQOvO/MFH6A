@@ -4,7 +4,7 @@
 
 **An automation tool for _Forza Horizon 6_, powered by MaaFramework**
 
-![license](https://img.shields.io/badge/license-AGPL--3.0-blue.svg)
+![license](https://img.shields.io/badge/license-AGPL--3.0--or--later-blue.svg)
 ![platform](https://img.shields.io/badge/platform-Windows%20x64-lightgrey.svg)
 ![MaaFramework](https://img.shields.io/badge/MaaFramework-5.16.1-informational.svg)
 ![UI](https://img.shields.io/badge/UI-MXU-8a2be2.svg)
@@ -151,7 +151,7 @@ Treat it as a MaaFramework learning project, not as a stable resource farm. Game
 
 ## License
 
-[AGPL-3.0](./LICENSE)
+[AGPL-3.0-or-later](./LICENSE)
 
 ---
 

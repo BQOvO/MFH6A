@@ -4,7 +4,7 @@
 
 **基于 MaaFramework 的《极限竞速：地平线 6》自动化工具**
 
-![license](https://img.shields.io/badge/license-AGPL--3.0-blue.svg)
+![license](https://img.shields.io/badge/license-AGPL--3.0--or--later-blue.svg)
 ![platform](https://img.shields.io/badge/platform-Windows%20x64-lightgrey.svg)
 ![MaaFramework](https://img.shields.io/badge/MaaFramework-5.16.1-informational.svg)
 ![UI](https://img.shields.io/badge/UI-MXU-8a2be2.svg)
@@ -151,7 +151,7 @@ create-maa-project --add github
 
 ## License
 
-[AGPL-3.0](./LICENSE)
+[AGPL-3.0-or-later](./LICENSE)
 
 ---
 

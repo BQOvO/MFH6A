@@ -45,7 +45,7 @@
         }
     },
     "license": {
-        "spdx": "AGPL-3.0-only"
+        "spdx": "AGPL-3.0-or-later"
     },
     "maafw": {
         "channel": "stable",
