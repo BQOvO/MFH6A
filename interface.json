@@ -2,7 +2,7 @@
     "interface_version": 2,
     "name": "mfh6a",
     "label": "MFH6A",
-    "version": "v0.1.0",
+    "version": "v0.0.0-dev",
     "description": "MFH6A MaaFW project",
     "controller": [
         {

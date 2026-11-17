@@ -132,6 +132,8 @@ create-maa-project --add github
 
 Pushing a tag such as `v0.1.0` then triggers `.github/workflows/release.yml`, where CI re-downloads MaaFramework, MXU and the OCR models before packaging.
 
+The tag is the version: packaging writes it back into the packaged `interface.json` `version` field, while the repository copy keeps the internal development version `v0.0.0-dev` and never has to be edited for a release.
+
 ## Related projects
 
 - [MaaFramework](https://github.com/MaaXYZ/MaaFramework) — recognition and execution engine

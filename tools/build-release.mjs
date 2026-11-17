@@ -83,9 +83,13 @@ function main() {
         throw new Error("interface.json name must match release artifact slug");
     }
 
-    const sourceVersion = String(interfaceJson.version ?? "");
-    if (!isReleaseVersion(sourceVersion)) {
-        throw new Error("interface.json version must be a release tag such as v0.1.0");
+    // interface.json ships a development placeholder; the release version always comes from the
+    // Git tag, and prepareReleaseInterface writes that tag back into the packaged interface.json.
+    // The placeholder must still look like a tag so a stale local build cannot produce an
+    // unversioned package, but it is never what a release publishes.
+    const devVersion = String(interfaceJson.version ?? "");
+    if (!isReleaseVersion(devVersion)) {
+        throw new Error("interface.json version must be a development tag such as v0.0.0-dev");
     }
 
     const releaseTag = releaseTagOverride ?? detectReleaseTag();
@@ -93,7 +97,8 @@ function main() {
         throw new Error("release build requires a SemVer Git tag such as v0.1.0");
     }
 
-    const version = releaseTag ?? sourceVersion;
+    // A dry run without a tag has no release version to stamp, so it keeps the placeholder.
+    const version = releaseTag ?? devVersion;
     if (!isReleaseVersion(version)) {
         throw new Error("release tag must be a SemVer tag such as v0.1.0");
     }
@@ -158,7 +163,7 @@ function main() {
                 }
             }
             prepareReleasePackage(guiKey, gui, packagePaths, guiInterface, runtimePlatform);
-            smokeReleasePackage(gui, `dist/package-${guiKey}`, packagePaths, runtimePlatform);
+            smokeReleasePackage(gui, `dist/package-${guiKey}`, packagePaths, runtimePlatform, version);
         }
 
         const releaseTargets = [
@@ -458,7 +463,7 @@ function prepareMxuMaafwRuntime(pkgDir, runtimePlatform) {
     }
 }
 
-function smokeReleasePackage(gui, root, packagePaths, runtimePlatform) {
+function smokeReleasePackage(gui, root, packagePaths, runtimePlatform, version) {
     if (!existsSync(join(root, "interface.json"))) {
         throw new Error("release package smoke failed: interface.json is missing at package root");
     }
@@ -518,6 +523,13 @@ function smokeReleasePackage(gui, root, packagePaths, runtimePlatform) {
     }
     if (!isReleaseVersion(String(packagedInterface.version ?? ""))) {
         throw new Error("release package smoke failed: package interface.json version must be a release tag");
+    }
+    // The published package must carry the tag it was built from, never the development placeholder
+    // that interface.json keeps in the repository.
+    if (packagedInterface.version !== version) {
+        throw new Error(
+            `release package smoke failed: package interface.json version is ${packagedInterface.version}, expected ${version}`,
+        );
     }
     if (packageHasAgent(packagedInterface)) {
         const childExec = packagedInterface.agent[0]?.child_exec ?? releaseAgentChildExec(runtimePlatform);

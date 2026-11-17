@@ -132,6 +132,8 @@ create-maa-project --add github
 
 之后推送 `v0.1.0` 这样的 tag 会触发 `.github/workflows/release.yml`，CI 里会重新拉 MaaFramework、MXU 和 OCR 模型再打包。
 
+打包时版本号取自这个 tag，并写回包内 `interface.json` 的 `version`；仓库里那份 `interface.json` 保持 `v0.0.0-dev` 这个内部测试版本，不需要随每次发布手改。
+
 ## 相关项目
 
 - [MaaFramework](https://github.com/MaaXYZ/MaaFramework) —— 本项目的识别与执行引擎
