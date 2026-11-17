@@ -12,8 +12,8 @@
             "display_short_side": 720,
             "permission_required": true,
             "win32": {
-                "window_regex": "(?i)^forza\\s*horizon\\s*6?$",
-                "class_regex": "(?i)^(forzahorizon|applicationframewindow|unrealwindow)$",
+                "window_regex": "^[Ff]orza\\s+[Hh]orizon\\s+6",
+                "class_regex": "^([Aa]pp|[Aa]pplicationFrameWindow|[Ff]orza[Hh]orizon6)$",
                 "mouse": "PostMessageWithWindowPos",
                 "keyboard": "PostMessage",
                 "screencap": "FramePool"
@@ -23,7 +23,7 @@
     "resource": [
         {
             "name": "base",
-            "label": "Base",
+            "label": "Steam端-后台",
             "path": [
                 "./resource/base"
             ]
