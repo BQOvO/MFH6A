@@ -45,7 +45,7 @@
         }
     },
     "license": {
-        "spdx": "MIT"
+        "spdx": "AGPL-3.0-only"
     },
     "maafw": {
         "channel": "stable",

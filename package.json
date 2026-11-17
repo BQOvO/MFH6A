@@ -11,7 +11,7 @@
     "engines": {
         "node": ">=22.13"
     },
-    "license": "MIT",
+    "license": "AGPL-3.0-only",
     "name": "mfh6a",
     "packageManager": "pnpm@11.5.1",
     "private": true,
