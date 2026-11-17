@@ -231,14 +231,16 @@ jobs:
             exit 1
           fi
           # A first release has no earlier stable tag, and `git describe` exits 128 there, which
-          # would fail this job before the tag is published. Fall back to the whole history
-          # (`HEAD` is git-cliff's `..HEAD`, i.e. from the root commit) so a first tag still ships.
+          # would fail this job before the tag is published. git-cliff also rejects a bare revision
+          # ("unable to parse OID"), so the fallback has to be a real `a..b` range: start from the
+          # root commit, which git-cliff then walks up to HEAD.
           if previous_stable_tag="$(git describe --tags --abbrev=0 --match 'v[0-9]*' --exclude '*-*' HEAD^ 2>/dev/null)"; then
             notes_range="$previous_stable_tag..HEAD"
             echo "[INFO] Generating release notes for $notes_range"
           else
-            notes_range="HEAD"
-            echo "[WARN] No previous stable release tag; generating release notes for the full history."
+            root_commit="$(git rev-list --max-parents=0 HEAD | tail -n 1)"
+            notes_range="$root_commit..HEAD"
+            echo "[WARN] No previous stable release tag; generating release notes for $notes_range."
           fi
           # Remote metadata needs the GitHub API, and git-cliff exits 101 when it cannot read it;
           # a repository with pull requests disabled answers 404 for the pull list. Notes are not
