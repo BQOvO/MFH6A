@@ -1,0 +1,37 @@
+{
+    "interface_version": 2,
+    "name": "mfh6a",
+    "label": "MFH6A",
+    "version": "v0.1.0",
+    "description": "MFH6A MaaFW project",
+    "controller": [
+        {
+            "name": "Windows",
+            "label": "Windows app",
+            "type": "Win32",
+            "display_short_side": 720
+        }
+    ],
+    "resource": [
+        {
+            "name": "base",
+            "label": "Base",
+            "path": [
+                "./resource/base"
+            ]
+        }
+    ],
+    "import": [
+        "./tasks/tutorial.json"
+    ],
+    "agent": [
+        {
+            "child_exec": "uv",
+            "child_args": [
+                "run",
+                "python",
+                "agent/main.py"
+            ]
+        }
+    ]
+}

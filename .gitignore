@@ -1,0 +1,23 @@
+# BEGIN create-maa-project
+node_modules/
+.venv/
+.uv-cache/
+__pycache__/
+config/
+dist/
+debug/
+.create-maa-project/
+# END create-maa-project
+
+
+# MXU portable layout (local debug only, not tracked)
+/mxu.exe
+/maafw/
+/MaaCommonAssets/
+/cache/
+
+# Runtime assets managed by `create-maa-project --update` (never committed)
+/runtimes/
+/plugins/
+/libs/
+resource/base/model/ocr/
