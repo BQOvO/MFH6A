@@ -201,22 +201,25 @@ function main() {
             // The extension must match what release.yml actually publishes: macOS MXU ships as a
             // dmg produced by tools/macos-app-bundle.mjs; every other target stays an archive.
             const ext = os === "macos" && guiKey === "mxu" ? "dmg" : targetExt;
-            artifacts.push(`${releaseArtifactName}-${os}-${arch}-${version}-${gui.suffix}.${ext}`);
+            // The GUI suffix only tells two packages apart: with a single enabled GUI the archive
+            // name carries just the project name and the version.
+            const guiSuffix = enabledGuis.length > 1 ? `-${gui.suffix}` : "";
+            artifacts.push(`${releaseArtifactName}-${os}-${arch}-${version}${guiSuffix}.${ext}`);
         }
     }
 
     // These names are a contract with the upload workflows (they match -win-/-linux-/-macos- and the
     // GUI suffix), so the check stays independent of the rendered target matrix: a target that does
     // not fit the convention has to fail here instead of publishing a name nothing else can match.
-    const suffixPattern = enabledGuis.map((g) => GUI_TYPES[g].suffix).join("|");
+    const suffixPattern = enabledGuis.length > 1 ? `-(${enabledGuis.map((g) => GUI_TYPES[g].suffix).join("|")})` : "";
     for (const artifact of artifacts) {
         if (
             !new RegExp(
                 "^" +
                     escapeRegExp(releaseArtifactName) +
-                    "-(win|linux|macos)-(x86_64|aarch64)-v.+-(" +
+                    "-(win|linux|macos)-(x86_64|aarch64)-v.+" +
                     suffixPattern +
-                    ")\\.(zip|tar\\.gz|dmg)$",
+                    "\\.(zip|tar\\.gz|dmg)$",
             ).test(artifact)
         ) {
             throw new Error(`invalid artifact name: ${artifact}`);

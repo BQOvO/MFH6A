@@ -125,18 +125,32 @@ jobs:
             echo "[ERR] no release packages were generated"
             exit 1
           fi
+          # The GUI suffix only tells two packages apart; a project with one enabled GUI ships
+          # plain names (MFH6A-<os>-<arch>-<tag>.zip).
+          multi_gui="$(node --input-type=module -e "
+          import fs from 'node:fs';
+          const project = JSON.parse(fs.readFileSync('maa-project.json', 'utf8'));
+          let count = 0;
+          if (project.runtime?.mfa?.enabled !== false) count += 1;
+          if (project.runtime?.mxu?.enabled) count += 1;
+          console.log(count > 1 ? '1' : '0');
+          ")"
           for pkg_dir in "${package_dirs[@]}"; do
             gui=$(basename "$pkg_dir" | sed 's/^package-//')
             # macOS runners resolve `shell: bash` to the system bash 3.2, which predates the
             # parameter-expansion case modifiers, so uppercase through tr instead.
             gui_upper="$(printf '%s' "$gui" | tr '[:lower:]' '[:upper:]')"
+            gui_suffix=""
+            if [[ "$multi_gui" == "1" ]]; then
+              gui_suffix="-${gui_upper}"
+            fi
             # macOS MXU ships as MFH6A.app inside a dmg, the shape MaaEnd publishes; MFAA
             # keeps the plain archive because it is a bare GUI binary.
             ext="${{ matrix.ext }}"
             if [[ "${{ matrix.artifact_os }}" == "macos" && "$gui" == "mxu" ]]; then
               ext="dmg"
             fi
-            archive="MFH6A-${{ matrix.artifact_os }}-${{ matrix.arch }}-${GITHUB_REF_NAME}-${gui_upper}.$ext"
+            archive="MFH6A-${{ matrix.artifact_os }}-${{ matrix.arch }}-${GITHUB_REF_NAME}${gui_suffix}.$ext"
             if [[ "$ext" == "dmg" ]]; then
               # An explicitly requested icon fails the build when it cannot be applied, so the flag
               # is only passed when the project actually ships a logo.ico.
@@ -185,7 +199,11 @@ jobs:
             if [[ "${{ matrix.artifact_os }}" == "macos" && "$gui_upper" == "MXU" ]]; then
               ext="dmg"
             fi
-            archive="MFH6A-${{ matrix.artifact_os }}-${{ matrix.arch }}-${GITHUB_REF_NAME}-${gui_upper}.$ext"
+            gui_suffix=""
+            if (( ${#expected_guis[@]} > 1 )); then
+              gui_suffix="-${gui_upper}"
+            fi
+            archive="MFH6A-${{ matrix.artifact_os }}-${{ matrix.arch }}-${GITHUB_REF_NAME}${gui_suffix}.$ext"
             if [[ ! -f "dist/$archive" ]]; then
               echo "[ERR] expected release asset was not produced: $archive"
               exit 1

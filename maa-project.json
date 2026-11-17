@@ -91,7 +91,7 @@
     "runtime": {
         "mfa": {
             "channel": "stable",
-            "enabled": true,
+            "enabled": false,
             "version": ""
         },
         "mxu": {
