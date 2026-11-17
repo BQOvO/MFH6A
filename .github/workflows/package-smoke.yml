@@ -165,6 +165,10 @@ jobs:
           RUNTIME_PLATFORM: ${{ matrix.runtime_os }}-${{ matrix.runtime_arch }}
         run: |
           set -euo pipefail
+          # MXU publishes no linux-arm64 runtime, so this matrix cell legitimately builds nothing.
+          # An unmatched glob stays literal without nullglob, which turned "found 0" into the single
+          # bogus entry "dist/package-*/" and failed the job on a successful build.
+          shopt -s nullglob
           read_expected() {
             node --input-type=module -e "
           import fs from 'node:fs';
