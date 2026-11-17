@@ -1,6 +1,24 @@
 {
     "addons": {
+        "autoFormat": {
+            "enabled": true
+        },
+        "community": {
+            "enabled": true
+        },
+        "dependabot": {
+            "enabled": true
+        },
         "devTools": {
+            "enabled": true
+        },
+        "gitCliff": {
+            "enabled": true
+        },
+        "github": {
+            "enabled": true
+        },
+        "optimizeImages": {
             "enabled": true
         },
         "vscode": {
@@ -14,13 +32,13 @@
     },
     "features": {
         "ci": {
-            "enabled": false
+            "enabled": true
         },
         "quality": {
             "enabled": true
         },
         "release": {
-            "enabled": false
+            "enabled": true
         },
         "vscode": {
             "enabled": true
@@ -73,7 +91,7 @@
     "runtime": {
         "mfa": {
             "channel": "stable",
-            "enabled": false,
+            "enabled": true,
             "version": ""
         },
         "mxu": {

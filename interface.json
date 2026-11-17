@@ -21,9 +21,6 @@
             ]
         }
     ],
-    "import": [
-        "./tasks/tutorial.json"
-    ],
     "agent": [
         {
             "child_exec": "uv",
@@ -33,5 +30,8 @@
                 "agent/main.py"
             ]
         }
+    ],
+    "import": [
+        "./tasks/tutorial.json"
     ]
 }
