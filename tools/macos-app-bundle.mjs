@@ -71,7 +71,7 @@ function parseOptions(argv) {
         package: "",
         app: "",
         version: "v0.0.0",
-        executable: "mfh6a",
+        executable: "MFH6A",
         bundleId: DEFAULT_BUNDLE_ID,
         displayName: "MFH6A",
         icon: "",

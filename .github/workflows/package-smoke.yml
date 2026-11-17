@@ -245,7 +245,7 @@ jobs:
             --version v0.0.0-package-smoke \
             "${icon_args[@]+"${icon_args[@]}"}" \
             --dmg "dist/MFH6A-package-smoke.dmg"
-          test -x "dist/MFH6A.app/Contents/MacOS/mfh6a"
+          test -x "dist/MFH6A.app/Contents/MacOS/MFH6A"
           test -L "dist/MFH6A.app/Contents/MacOS/interface.json"
           test -d "dist/MFH6A.app/Contents/Resources/MXU-portable"
           test -s "dist/MFH6A-package-smoke.dmg"
@@ -284,7 +284,7 @@ jobs:
             echo "[OK] no macOS app bundle; MXU GUI probe skipped"
             exit 0
           fi
-          ( cd "dist/MFH6A.app/Contents/MacOS" && ./mfh6a > "$RUNNER_TEMP/mxu.log" 2>&1 & echo $! > "$RUNNER_TEMP/mxu.pid" )
+          ( cd "dist/MFH6A.app/Contents/MacOS" && ./MFH6A > "$RUNNER_TEMP/mxu.log" 2>&1 & echo $! > "$RUNNER_TEMP/mxu.pid" )
           sleep 20
           if kill -0 "$(cat "$RUNNER_TEMP/mxu.pid")" 2>/dev/null; then
             echo "[OK] MXU stayed alive for 20s"

@@ -626,6 +626,7 @@ function assertUnixExecutablePermissions(root, runtimePlatform) {
 
 function findUnixExecutableFiles(root) {
     const names = new Set([
+        releaseArtifactName,
         projectSlug,
         "MFAAvalonia",
         "mxu",
@@ -677,11 +678,15 @@ function pythonRuntimePath(runtimePlatform) {
     return join(".create-maa-project", "runtime", "python", runtimePlatform);
 }
 
-// LOCAL CUSTOMISATION: the Windows GUI binary ships under the display name (MFH6A.exe) instead of
-// the lowercase slug (mfh6a.exe). Unix keeps the slug on purpose: release.yml asserts executable
-// bits against a case-sensitive awk allowlist that only knows the lowercase name.
+// LOCAL CUSTOMISATION: every platform ships the GUI binary under the display name (MFH6A.exe on
+// Windows, bare MFH6A elsewhere) instead of the lowercase slug. projectSlug itself has to stay
+// lowercase: interface.json#name is asserted against it, and npm package names are lowercase by
+// rule. Two places must move together with this one, or the Unix build breaks silently:
+// the awk allowlist in .github/workflows/release.yml (case-sensitive, it stops covering the entry
+// point and quietly passes) and the executable default in tools/macos-app-bundle.mjs (it looks up
+// the entry point by that exact name inside the .app).
 function guiEntrypointName(runtimePlatform) {
-    return runtimePlatform.startsWith("win-") ? `${releaseArtifactName}.exe` : projectSlug;
+    return runtimePlatform.startsWith("win-") ? `${releaseArtifactName}.exe` : releaseArtifactName;
 }
 
 // MXU 2.10 moved the macOS build into mxu.app/Contents/MacOS/mxu. The release package keeps the
