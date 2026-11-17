@@ -7,9 +7,17 @@
     "controller": [
         {
             "name": "Windows",
-            "label": "Windows app",
+            "label": "Forza Horizon 6 (窗口限定)",
             "type": "Win32",
-            "display_short_side": 720
+            "display_short_side": 720,
+            "permission_required": true,
+            "win32": {
+                "window_regex": "(?i)^forza\\s*horizon\\s*6?$",
+                "class_regex": "(?i)^(forzahorizon|applicationframewindow|unrealwindow)$",
+                "mouse": "PostMessageWithWindowPos",
+                "keyboard": "PostMessage",
+                "screencap": "FramePool"
+            }
         }
     ],
     "resource": [
