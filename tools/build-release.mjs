@@ -677,8 +677,11 @@ function pythonRuntimePath(runtimePlatform) {
     return join(".create-maa-project", "runtime", "python", runtimePlatform);
 }
 
+// LOCAL CUSTOMISATION: the Windows GUI binary ships under the display name (MFH6A.exe) instead of
+// the lowercase slug (mfh6a.exe). Unix keeps the slug on purpose: release.yml asserts executable
+// bits against a case-sensitive awk allowlist that only knows the lowercase name.
 function guiEntrypointName(runtimePlatform) {
-    return runtimePlatform.startsWith("win-") ? `${projectSlug}.exe` : projectSlug;
+    return runtimePlatform.startsWith("win-") ? `${releaseArtifactName}.exe` : projectSlug;
 }
 
 // MXU 2.10 moved the macOS build into mxu.app/Contents/MacOS/mxu. The release package keeps the
