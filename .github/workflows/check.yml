@@ -24,7 +24,11 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm audit --audit-level high
+      # picomatch <=4.0.7 (ReDoS) has no patched release on npm yet, so the gate
+      # would fail on something nobody can fix. --ignore-unfixable only skips
+      # advisories with no fix available; anything fixable still fails the job,
+      # and this stops skipping automatically once a patched version ships.
+      - run: pnpm audit --audit-level high --ignore-unfixable
       - run: pnpm check
       - run: pnpm check:py
         if: hashFiles('pyproject.toml') != ''

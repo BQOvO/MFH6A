@@ -67,7 +67,8 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm audit --audit-level high
+      # See .github/workflows/check.yml for why unfixable advisories are skipped.
+      - run: pnpm audit --audit-level high --ignore-unfixable
       - run: pnpm check
       - run: pnpm check:py
         if: hashFiles('pyproject.toml') != ''
