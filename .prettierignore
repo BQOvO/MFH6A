@@ -3,6 +3,8 @@ dist/
 .create-maa-project/
 .venv/
 .uv-cache/
+.pnpm-store/
+scratch/
 pnpm-lock.yaml
 uv.lock
 MaaCommonAssets/

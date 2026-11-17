@@ -21,3 +21,12 @@ debug/
 /plugins/
 /libs/
 resource/base/model/ocr/
+
+# Local scratch space for one-off scripts, probes and debug output.
+# Everything in here is disposable; only /scratch/README.md is tracked.
+/scratch/*
+!/scratch/README.md
+
+# pnpm writes a local store into the project root unless store-dir is set.
+/.pnpm-store/
+
